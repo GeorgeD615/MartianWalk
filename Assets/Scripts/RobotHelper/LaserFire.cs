@@ -22,6 +22,8 @@ public class LaserFire : MonoBehaviour
     [SerializeField] private Image _greenBound;
     [SerializeField] private Image _blueBound;
 
+    [SerializeField] private GameObject _effectOnEnemy;
+
 
     private Scrollbar _currentChosenScrollbar;
  
@@ -41,6 +43,7 @@ public class LaserFire : MonoBehaviour
         _redBound.enabled = true;
         _greenBound.enabled = false;
         _blueBound.enabled = false;
+        _effectOnEnemy.SetActive(false);
     }
 
     void Update()
@@ -58,7 +61,7 @@ public class LaserFire : MonoBehaviour
         }
         else
         {
-            _targetPoint.transform.position = ray.direction.normalized * 1000;
+            _targetPoint.transform.position = ray.direction.normalized * 10000;
         }
 
         if (Input.GetMouseButton(0) && CurrentColor != Vector3.zero)
@@ -66,11 +69,15 @@ public class LaserFire : MonoBehaviour
             _lineRenderer.enabled = true;
             _lineRenderer.SetPosition(0, _firePoint.position);
             _lineRenderer.SetPosition(1, _targetPoint.transform.position);
+            _effectOnEnemy.SetActive(true);
+            _effectOnEnemy.transform.position = _targetPoint.transform.position;
 
             if (raycastHit.transform != null && raycastHit.transform.root.TryGetComponent<EnemyHealth>(out EnemyHealth enemyHealth))
             {
+                Debug.Log("enemy found");
                 if(enemyHealth.EnemyColor == CurrentColor)
                 {
+                    Debug.Log("enemy hit");
                     enemyHealth.TakeDamage(_damagePerSecond * Time.deltaTime);
                 }
             }
@@ -78,6 +85,7 @@ public class LaserFire : MonoBehaviour
         else
         {
             _lineRenderer.enabled = false;
+            _effectOnEnemy.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.E))

@@ -130,6 +130,7 @@ MonoBehaviour:
   EventOnDie:
     m_PersistentCalls:
       m_Calls: []
+  EnemyColor: {x: 0, y: 0, z: 0}
 --- !u!1001 &4385210108613730612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 877585226284893763, guid: 7e4eb52ae948ff240a23783425f71e25,
         type: 3}
       propertyPath: _stoneSpeed
-      value: 35
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 877585226284893763, guid: 7e4eb52ae948ff240a23783425f71e25,
         type: 3}

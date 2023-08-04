@@ -14,6 +14,7 @@ public class SettingsMenu : MonoBehaviour
 
     private void Start()
     {
+        SetValue(-50.0f);
         _resolutions = Screen.resolutions;
 
         _resolutionDropdown.ClearOptions();

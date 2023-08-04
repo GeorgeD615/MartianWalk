@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     //[SerializeField] private AudioSource jumpAudio;
     //[SerializeField] private AudioSource attackAudio;
+    [SerializeField] private AudioSource _walkSound;
+    [SerializeField] private AudioClip _walkSoundClip;
 
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private Animator _animator;
@@ -105,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    private bool _stepSoundPlay = false;
     private void FixedUpdate()
     {
         float speedMultiplierInAir = 1f;
@@ -113,9 +116,22 @@ public class PlayerMovement : MonoBehaviour
         if (_grounded)
         {
             _rigidbody.AddForce(input * _moveSpeed, 0, 0, ForceMode.VelocityChange);
+            if (input != 0 && !_stepSoundPlay)
+            {
+                _walkSound.Play();
+                Debug.Log("play");
+                _stepSoundPlay = true;
+            }
+            else if (input == 0)
+            {
+                _walkSound.Pause();
+                _stepSoundPlay = false;
+            }
         }
         else
         {
+            _walkSound.Pause();
+            _stepSoundPlay = false;
             speedMultiplierInAir = 0.5f;
             if (_rigidbody.velocity.x > _maxMoveSpeed && input > 0)
             {
