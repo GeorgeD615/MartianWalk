@@ -10,6 +10,7 @@ public class Rock : MonoBehaviour
     {
         if(other.gameObject.layer != _enemyLayerMask)
         {
+            Debug.Log(other);
             if (other.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
             {
                 playerHealth.TakeDamage(1);
