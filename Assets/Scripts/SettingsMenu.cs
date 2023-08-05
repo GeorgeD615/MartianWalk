@@ -10,11 +10,14 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private TMP_Dropdown _resolutionDropdown;
 
+    [SerializeField] private AudioMixerGroup _audioMixerGroup;
+
     private Resolution[] _resolutions;
 
     private void Start()
     {
-        SetValue(-50.0f);
+        SetMusicValue(-20.0f);
+        SetEffectsValue(-20.0f);
         _resolutions = Screen.resolutions;
 
         _resolutionDropdown.ClearOptions();
@@ -47,9 +50,14 @@ public class SettingsMenu : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
-    public void SetValue(float val)
+    public void SetMusicValue(float val)
     {
         _audioMixer.SetFloat("MusicVolume", val);
+    }
+
+    public void SetEffectsValue(float val)
+    {
+        _audioMixer.SetFloat("EffectsVolume", val);
     }
 
     public void SetFullscreen(bool isFullscreen)

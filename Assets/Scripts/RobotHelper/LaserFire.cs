@@ -23,6 +23,10 @@ public class LaserFire : MonoBehaviour
     [SerializeField] private Image _blueBound;
 
     [SerializeField] private GameObject _effectOnEnemy;
+    [SerializeField] private AudioSource _laserSound;
+    [SerializeField] private AudioSource _laserOnSound;
+    [SerializeField] private AudioSource _selectColorSound;
+    [SerializeField] private AudioSource _switchColorSound;
 
 
     private Scrollbar _currentChosenScrollbar;
@@ -46,10 +50,9 @@ public class LaserFire : MonoBehaviour
         _effectOnEnemy.SetActive(false);
     }
 
+    private bool _laserSoundPlay = false;
     void Update()
     {
-        
-
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, _layerMask))
         {
@@ -57,7 +60,6 @@ public class LaserFire : MonoBehaviour
                 _targetPoint.transform.position = raycastHit.point;
             else
                 _targetPoint.transform.position = new Vector3(raycastHit.point.x, 0, 0.5f);
-
         }
         else
         {
@@ -66,6 +68,12 @@ public class LaserFire : MonoBehaviour
 
         if (Input.GetMouseButton(0) && CurrentColor != Vector3.zero)
         {
+            if (!_laserSoundPlay)
+            {
+                _laserOnSound.Play();
+                _laserSound.Play();
+                _laserSoundPlay = true;
+            }
             _lineRenderer.enabled = true;
             _lineRenderer.SetPosition(0, _firePoint.position);
             _lineRenderer.SetPosition(1, _targetPoint.transform.position);
@@ -86,11 +94,14 @@ public class LaserFire : MonoBehaviour
         {
             _lineRenderer.enabled = false;
             _effectOnEnemy.SetActive(false);
+            _laserSound.Pause();
+            _laserSoundPlay = false;
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(_currentChosenScrollbar == _redScrollbar)
+            _selectColorSound.Play();
+            if (_currentChosenScrollbar == _redScrollbar)
             {
                 _currentChosenScrollbar = _blueScrollbar;
                 _redBound.enabled = false;
@@ -110,6 +121,7 @@ public class LaserFire : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            _selectColorSound.Play();
             if (_currentChosenScrollbar == _redScrollbar)
             {
                 _currentChosenScrollbar = _greenScrollbar;
@@ -132,6 +144,7 @@ public class LaserFire : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
+            _switchColorSound.Play();
             if (_currentChosenScrollbar.value == 1)
             {
                 _currentChosenScrollbar.value = 0;
