@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private float _jumpFramesTimer;
 
 
-    private void Start()
+    private void Awake()
     {
         if(Instance != null)
         {
@@ -41,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Instance = this;
         }
-        DontDestroyOnLoad(gameObject);
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _playerCamera.SetActive(true);
@@ -49,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
         _playerInputActions.Player.Enable();
         _playerInputActions.Player.Jump.performed += JumpButtonPressed;
     }
+
+
 
 
 

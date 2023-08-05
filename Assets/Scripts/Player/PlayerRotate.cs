@@ -11,7 +11,7 @@ public class PlayerRotate : MonoBehaviour
 
     private PlayerInputActions _playerInputActions;
 
-    private void Start()
+    private void Awake()
     {
         if(Instance != null)
         {
@@ -21,7 +21,6 @@ public class PlayerRotate : MonoBehaviour
         {
             Instance = this;
         }
-        DontDestroyOnLoad(gameObject);
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Player.Enable();
     }

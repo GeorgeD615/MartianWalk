@@ -17,13 +17,12 @@ public class PlayerHealth : MonoBehaviour
     public UnityEvent EventOnTakeDamage;
     public UnityEvent EventDie;
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != null)
             Destroy(this);
         else
             Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         _healthUI.Setup(_maxHealth);
         _healthUI.DisplayHealth(_maxHealth);

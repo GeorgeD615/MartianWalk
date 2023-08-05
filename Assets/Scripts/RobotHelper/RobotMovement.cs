@@ -11,7 +11,7 @@ public class RobotMovement : MonoBehaviour
     [SerializeField] private Transform _targetPosition;
 
 
-    void Start()
+    void Awake()
     {
         if(Instanse == null)
         {

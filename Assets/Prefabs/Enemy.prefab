@@ -112,6 +112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 20
   _healthBar: {fileID: 5327874507205223439}
+  _explosionEffect: {fileID: 6944569423343251005, guid: 85d29b9111338c9498173ea331d70fd9,
+    type: 3}
+  _enemyHead: {fileID: 4159626008449045564}
   EventOnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
@@ -307,6 +310,12 @@ Animator:
 --- !u!4 &2956978794833118702 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1572365194162316506, guid: 7e4eb52ae948ff240a23783425f71e25,
+    type: 3}
+  m_PrefabInstance: {fileID: 4385210108613730612}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4159626008449045564 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 388031452321379592, guid: 7e4eb52ae948ff240a23783425f71e25,
     type: 3}
   m_PrefabInstance: {fileID: 4385210108613730612}
   m_PrefabAsset: {fileID: 0}

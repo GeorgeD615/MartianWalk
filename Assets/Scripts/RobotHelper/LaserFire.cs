@@ -36,7 +36,7 @@ public class LaserFire : MonoBehaviour
     public Vector3 CurrentColor;
 
 
-    void Start()
+    void Awake()
     {
         if(Instanse == null)
             Instanse = this;

@@ -8,6 +8,8 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private float _health = 100;
     [SerializeField] private Slider _healthBar;
+    [SerializeField] private GameObject _explosionEffect;
+    [SerializeField] private Transform _enemyHead;
     //[SerializeField] private GameObject _effectPrefab;
     //[SerializeField] private AudioSource _deathSound;
 
@@ -45,7 +47,9 @@ public class EnemyHealth : MonoBehaviour
         //}
         //Instantiate(_effectPrefab, transform.position, Quaternion.identity);
         _healthBar.gameObject.SetActive(false);
+        Instantiate(_explosionEffect, _enemyHead.position, Quaternion.identity);
         EventOnDie.Invoke();
+        
         Destroy(gameObject);
     }
 

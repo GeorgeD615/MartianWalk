@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
 
     public Checkpoint LastCheckpoint;
 
-    private bool _checkpointLoaded = false;
     private void Start()
     {
         if(Instance != null)
@@ -50,7 +49,13 @@ public class GameManager : MonoBehaviour
         SettingsMenuDisable();
         PlayerControlDisable();
         PauseMenuDisable();
+        SwitchCamera(_menuCamera);
     }
+
+    //private void Awake()
+    //{
+    //    PlayerControlDisable();
+    //}
 
     private bool _onPause;
 
@@ -167,7 +172,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadLastCheckpoint()
     {
-        _checkpointLoaded = true;
         PlayerMovement.Instance.transform.position = LastCheckpoint.transform.position;
         PlayerMovement.Instance.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
         RobotMovement.Instanse.transform.position = _leftRobotPosition.position;
@@ -178,19 +182,23 @@ public class GameManager : MonoBehaviour
     {
         foreach (EnemyHealth obj in _enemyHealths)
         {
-            obj.enabled = true;
+            if (obj != null)
+                obj.enabled = true;
         }
         foreach (EnemyRotation obj in _enemyRotations)
         {
-            obj.enabled = true;
+            if (obj != null)
+                obj.enabled = true;
         }
         foreach (EnemyThrow obj in _enemyThrows)
         {
-            obj.enabled = true;
+            if (obj != null)
+                obj.enabled = true;
         }
         foreach (EnemyBehavior obj in _enemyBehavior)
         {
-            obj.enabled = true;
+            if (obj != null)
+                obj.enabled = true;
         }
     }
 
@@ -198,19 +206,23 @@ public class GameManager : MonoBehaviour
     {
         foreach (EnemyHealth obj in _enemyHealths)
         {
-            obj.enabled = false;
+            if(obj != null)
+                obj.enabled = false;
         }
         foreach (EnemyRotation obj in _enemyRotations)
         {
-            obj.enabled = false;
+            if (obj != null)
+                obj.enabled = false;
         }
         foreach (EnemyThrow obj in _enemyThrows)
         {
-            obj.enabled = false;
+            if (obj != null)
+                obj.enabled = false;
         }
         foreach (EnemyBehavior obj in _enemyBehavior)
         {
-            obj.enabled = false;
+            if (obj != null)
+                obj.enabled = false;
         }
     }
 

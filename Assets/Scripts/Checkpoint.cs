@@ -9,7 +9,7 @@ public class Checkpoint : MonoBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+
     }
 
     private void OnTriggerEnter(Collider other)
