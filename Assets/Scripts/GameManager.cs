@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 
 public class GameManager : MonoBehaviour
@@ -15,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _menuUI;
     [SerializeField] private GameObject _settingsUI;
     [SerializeField] private GameObject _pauseMenuUI;
+    [SerializeField] private GameObject _killCounterUI;
 
     [SerializeField] private GameObject _playerPref;
 
@@ -28,6 +31,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private EnemyThrow[] _enemyThrows;
     [SerializeField] private EnemyRotation[] _enemyRotations;
     [SerializeField] private EnemyHealth[] _enemyHealths;
+
+    [SerializeField] private TMP_Text _killCounterText;
+    [SerializeField] private TMP_Text _timeSpent;
 
     private CinemachineVirtualCamera _currentCamera;
 
@@ -50,12 +56,8 @@ public class GameManager : MonoBehaviour
         PlayerControlDisable();
         PauseMenuDisable();
         SwitchCamera(_menuCamera);
+        _killCounterUI.SetActive(false);
     }
-
-    //private void Awake()
-    //{
-    //    PlayerControlDisable();
-    //}
 
     private bool _onPause;
 
@@ -70,6 +72,11 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+        if (_isTimerOn)
+        {
+            _spentTime += Time.deltaTime;
+            _timeSpent.text = (Mathf.Round(_spentTime)/100).ToString();
+        }
         if (Input.GetKeyDown(KeyCode.Escape) && !_menuUI.activeSelf && !_settingsCamera.enabled)
         {
             if (_onPause)
@@ -102,6 +109,7 @@ public class GameManager : MonoBehaviour
         PlayerHealth.Instance.enabled = true;
         RobotMovement.Instanse.enabled = true;
         LaserFire.Instanse.enabled = true;
+        _killCounterUI.SetActive(true);
         _healthUI.SetActive(true);
         Cursor.visible = false;
         SwitchCamera(_playerCamera);
@@ -114,6 +122,7 @@ public class GameManager : MonoBehaviour
         PlayerHealth.Instance.enabled = false;
         RobotMovement.Instanse.enabled = false;
         LaserFire.Instanse.enabled = false;
+        _killCounterUI.SetActive(false);
         _healthUI.SetActive(false);
     }
 
@@ -237,5 +246,16 @@ public class GameManager : MonoBehaviour
         {
             MainMenuEnable();
         }
+    }
+
+    private int _killCounter = 0;
+    private bool _isTimerOn = false;
+    private float _spentTime = 0;
+    
+    public void OnEnemyDie()
+    {
+        ++_killCounter;
+        _isTimerOn = true;
+        _killCounterText.text = _killCounter + "/18";
     }
 }

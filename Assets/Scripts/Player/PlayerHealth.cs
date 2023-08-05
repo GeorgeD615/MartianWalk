@@ -7,8 +7,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int _health = 5; public int Health => _health;
     [SerializeField] private int _maxHealth = 8; public int MaxHealth => _maxHealth;
 
+    [SerializeField] private SkinnedMeshRenderer _playerBody;
 
-    //[SerializeField] private AudioSource _addHealthSound;
+    private Material _yellowMat;
+    private Material _blackMat;
+    private Material _whiteMat;
+    private Material[] _bodyMats;
+    [SerializeField] private Material _damageMat;
+
     [SerializeField] private HealthUI _healthUI;
 
     private bool _invulnerable = false;
@@ -19,6 +25,13 @@ public class PlayerHealth : MonoBehaviour
 
     private void Awake()
     {
+        _bodyMats = new Material[3];
+        _blackMat = _playerBody.materials[0];
+        _whiteMat = _playerBody.materials[1];
+        _yellowMat = _playerBody.materials[2];
+        _bodyMats[0] = _blackMat;
+        _bodyMats[1] = _whiteMat;
+        _bodyMats[2] = _yellowMat;
         if (Instance != null)
             Destroy(this);
         else
@@ -44,6 +57,7 @@ public class PlayerHealth : MonoBehaviour
                     Die();
                 }
             }
+            _playerBody.materials = new Material[3] { _damageMat, _damageMat, _damageMat };
             _invulnerable = true;
             Invoke(nameof(StopInvulnerable), 1f);
             _healthUI.DisplayHealth(_health);
@@ -54,6 +68,7 @@ public class PlayerHealth : MonoBehaviour
     private void StopInvulnerable()
     {
         _invulnerable = false;
+        _playerBody.materials = _bodyMats;
     }
 
     public void AddHealth(int healthValue)
@@ -63,7 +78,7 @@ public class PlayerHealth : MonoBehaviour
         {
             _health = _maxHealth;
         }
-        //addHealthSound.Play();
+
         _healthUI.DisplayHealth(_health);
     }
 
