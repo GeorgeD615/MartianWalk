@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Camera _mainCamera;
 
+    [SerializeField] private AudioSource[] loopSoundsToDisable;
+
     [SerializeField] private GameObject _healthUI;
     [SerializeField] private GameObject _menuUI;
     [SerializeField] private GameObject _settingsUI;
@@ -35,12 +37,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _killCounterText;
     [SerializeField] private TMP_Text _timeSpent;
 
+    [SerializeField] private GameObject _winWindowUI;
+    [SerializeField] private TMP_Text _finalScoreText;
+
+
     private CinemachineVirtualCamera _currentCamera;
 
     public Checkpoint LastCheckpoint;
 
+    //private float _bestScore = float.MaxValue;
+
     private void Start()
     {
+        if (!PlayerPrefs.HasKey("_bestScore"))
+            PlayerPrefs.SetFloat("_bestScore", float.MaxValue);
         if(Instance != null)
         {
             Destroy(this);
@@ -49,7 +59,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        DontDestroyOnLoad(gameObject);
+
 
         MainMenuEnable();
         SettingsMenuDisable();
@@ -57,6 +67,7 @@ public class GameManager : MonoBehaviour
         PauseMenuDisable();
         SwitchCamera(_menuCamera);
         _killCounterUI.SetActive(false);
+        _winWindowUI.SetActive(false);
     }
 
     private bool _onPause;
@@ -69,13 +80,19 @@ public class GameManager : MonoBehaviour
     public void PauseOn()
     {
         Time.timeScale = 0f;
+        foreach (AudioSource sound in loopSoundsToDisable)
+        {
+            sound.Pause();
+        }
     }
     private void Update()
     {
         if (_isTimerOn)
         {
             _spentTime += Time.deltaTime;
-            _timeSpent.text = (Mathf.Round(_spentTime)/100).ToString();
+            _timeSpent.text = $"{((int)_spentTime / 60):00}:{ (int)_spentTime % 60:00}";
+            //_spentTime += Time.deltaTime;
+            //_timeSpent.text = _spentTime.ToString();
         }
         if (Input.GetKeyDown(KeyCode.Escape) && !_menuUI.activeSelf && !_settingsCamera.enabled)
         {
@@ -98,6 +115,10 @@ public class GameManager : MonoBehaviour
                 DisableEnemys();
                 Cursor.visible = true;
                 _pauseMenuUI.SetActive(true);
+                foreach (AudioSource sound in loopSoundsToDisable)
+                {
+                    sound.Pause();
+                }
             }
         }
     }
@@ -256,6 +277,33 @@ public class GameManager : MonoBehaviour
     {
         ++_killCounter;
         _isTimerOn = true;
-        _killCounterText.text = _killCounter + "/18";
+        _killCounterText.text = _killCounter + "/19";
+        if (_killCounter == 19)
+            GameOver();
+
+    }
+
+    private void GameOver()
+    {
+        Time.timeScale = 0f;
+        foreach (AudioSource sound in loopSoundsToDisable)
+        {
+            sound.Pause();
+        }
+        _isTimerOn = false;
+        PlayerControlDisable();
+        _winWindowUI.SetActive(true);
+        if (_spentTime < PlayerPrefs.GetFloat("_bestScore"))
+            PlayerPrefs.SetFloat("_bestScore", _spentTime);
+        _finalScoreText.text = $"Your final score: {((int)_spentTime / 60):00}:{(int)_spentTime % 60:00}"
+            + $"\nYour best score: {((int)PlayerPrefs.GetFloat("_bestScore") / 60):00}:{((int)PlayerPrefs.GetFloat("_bestScore") % 60):00}";
+        Cursor.visible = true;
+        
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 }

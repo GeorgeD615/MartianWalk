@@ -56,7 +56,7 @@ public class LaserFire : MonoBehaviour
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, _layerMask))
         {
-            if (raycastHit.point.z > 0.5)
+            if (raycastHit.point.z > 150.6685)
                 _targetPoint.transform.position = raycastHit.point;
             else
                 _targetPoint.transform.position = new Vector3(raycastHit.point.x, 0, 0.5f);

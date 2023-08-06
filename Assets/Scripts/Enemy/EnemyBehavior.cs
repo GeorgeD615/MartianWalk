@@ -43,17 +43,13 @@ public class EnemyBehavior : MonoBehaviour
             }
 
         }
-        else
-        {
-            if (PlayerMovement.Instance == null
-                || PlayerMovement.Instance.transform.position.x < _leftTriggerBound.position.x
-                || PlayerMovement.Instance.transform.position.x > _rightTriggerBound.position.x)
-            {
-                _animator.SetTrigger("PlayerOUT");
-                _currentState = State.IDLE;
-            }
-            
-        }
+    }
+
+    public void MadeAngry()
+    {
+        _animator.SetTrigger("PlayerIN");
+        _currentState = State.ANGRY;
+        _hpSlider.SetActive(true);
     }
 
 

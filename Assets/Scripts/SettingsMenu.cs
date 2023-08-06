@@ -16,8 +16,12 @@ public class SettingsMenu : MonoBehaviour
 
     private void Start()
     {
-        SetMusicValue(-20.0f);
-        SetEffectsValue(-20.0f);
+        if (!PlayerPrefs.HasKey("_musicVolume"))
+            PlayerPrefs.SetFloat("_musicVolume", -20.0f);
+        if (!PlayerPrefs.HasKey("_effectsVolume"))
+            PlayerPrefs.SetFloat("_effectsVolume", -20.0f);
+        SetMusicValue(PlayerPrefs.GetFloat("_musicVolume"));
+        SetEffectsValue(PlayerPrefs.GetFloat("_effectsVolume"));
         _resolutions = Screen.resolutions;
 
         _resolutionDropdown.ClearOptions();
@@ -52,11 +56,13 @@ public class SettingsMenu : MonoBehaviour
 
     public void SetMusicValue(float val)
     {
+        PlayerPrefs.SetFloat("_musicVolume", val);
         _audioMixer.SetFloat("MusicVolume", val);
     }
 
     public void SetEffectsValue(float val)
     {
+        PlayerPrefs.SetFloat("_effectsVolume", val);
         _audioMixer.SetFloat("EffectsVolume", val);
     }
 
