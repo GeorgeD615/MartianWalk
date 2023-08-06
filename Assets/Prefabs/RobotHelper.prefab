@@ -825,7 +825,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3723782587839298918}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.571}
+  m_LocalPosition: {x: 0, y: 0, z: 0.551}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6287,7 +6287,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _leftTargetPosition: {fileID: 0}
-  _rightTargetPosition: {fileID: 0}
   _velocity: 3
   _targetPosition: {fileID: 0}
 --- !u!120 &7590715378335893740
@@ -6342,7 +6341,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0.039600372
-        value: 0.2544365
+        value: 0.23556137
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -6416,6 +6415,10 @@ MonoBehaviour:
   _greenBound: {fileID: 0}
   _blueBound: {fileID: 0}
   _effectOnEnemy: {fileID: 0}
+  _laserSound: {fileID: 0}
+  _laserOnSound: {fileID: 0}
+  _selectColorSound: {fileID: 0}
+  _switchColorSound: {fileID: 0}
   CurrentColor: {x: 0, y: 0, z: 0}
 --- !u!1 &8424665102060818081
 GameObject:
@@ -6746,7 +6749,7 @@ Transform:
   m_GameObject: {fileID: 8905854098671022073}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.516}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.16, y: 0.16, z: 0.16}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2253456354260488671}
