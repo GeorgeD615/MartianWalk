@@ -53,13 +53,11 @@ public class LaserFire : MonoBehaviour
     private bool _laserSoundPlay = false;
     void Update()
     {
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        //Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = new Ray(_firePoint.position, _firePoint.forward);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, _layerMask))
         {
-            if (raycastHit.point.z > 0.5)
-                _targetPoint.transform.position = raycastHit.point;
-            else
-                _targetPoint.transform.position = new Vector3(raycastHit.point.x, 0, 0.5f);
+            _targetPoint.transform.position = raycastHit.point;
         }
         else
         {
@@ -98,7 +96,7 @@ public class LaserFire : MonoBehaviour
             _laserSoundPlay = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetAxis("Mouse ScrollWheel") > 0.1)
         {
             _selectColorSound.Play();
             if (_currentChosenScrollbar == _redScrollbar)
@@ -119,7 +117,7 @@ public class LaserFire : MonoBehaviour
                 _greenBound.enabled = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetAxis("Mouse ScrollWheel") < -0.1)
         {
             _selectColorSound.Play();
             if (_currentChosenScrollbar == _redScrollbar)
